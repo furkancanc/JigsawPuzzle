@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class GridGenerator : MonoBehaviour
+public class PuzzleGenerator : MonoBehaviour
 {
     [Header("Elements")]
-    [SerializeField] private GameObject spherePrefab;
+    [SerializeField] private PuzzlePiece puzzlePiecePrefab;
 
     [Header("Settings")]
     [SerializeField] private int gridSize;
@@ -26,14 +26,12 @@ public class GridGenerator : MonoBehaviour
             for (int y = 0; y < gridSize; ++y)
             {
                 Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
-                GameObject sphereInstance = Instantiate(spherePrefab, spawnPosition, Quaternion.identity, transform);
-                sphereInstance.transform.localScale = Vector3.one * gridScale;
+                PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, spawnPosition, Quaternion.identity, transform);
 
                 Vector2 tiling = new Vector2(1f / gridSize, 1f / gridSize);
                 Vector2 offset = new Vector2((float)x / gridSize, (float)y / gridSize);
 
-                sphereInstance.GetComponent<Renderer>().material.mainTextureScale = tiling;
-                sphereInstance.GetComponent<Renderer>().material.mainTextureOffset = offset;
+                puzzlePieceInstance.Configure(gridScale, tiling, offset);
             }
         }
         
