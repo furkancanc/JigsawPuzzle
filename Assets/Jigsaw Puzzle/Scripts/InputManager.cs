@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [Header("Elements")]
+
     private void Update()
     {
         ManageInput();

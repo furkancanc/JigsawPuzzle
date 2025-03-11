@@ -3,6 +3,7 @@ using UnityEngine;
 public class PuzzleGenerator : MonoBehaviour
 {
     [Header("Elements")]
+    [SerializeField] private PuzzleController puzzleController;
     [SerializeField] private PuzzlePiece puzzlePiecePrefab;
 
     [Header("Settings")]
@@ -11,6 +12,7 @@ public class PuzzleGenerator : MonoBehaviour
 
     private void Start()
     {
+        PuzzleController.Configure(gridScale);
         GenerateGrid();
     }
 
