@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleGenerator : MonoBehaviour
@@ -9,15 +11,18 @@ public class PuzzleGenerator : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int gridSize;
     [SerializeField] private float gridScale;
+    private List<PuzzlePiece> puzzlePieces = new List<PuzzlePiece>();
 
     private void Start()
     {
-        PuzzleController.Configure(gridScale);
+        puzzleController.Configure(this, gridScale);
         GenerateGrid();
     }
 
     private void GenerateGrid()
     {
+        puzzlePieces.Clear();
+
         Vector3 startPosition = Vector2.left * (gridScale * gridSize / 2) + Vector2.down * (gridScale * gridSize  / 2);
 
         startPosition.x += gridScale / 2;
@@ -30,6 +35,8 @@ public class PuzzleGenerator : MonoBehaviour
                 Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
                 PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, spawnPosition, Quaternion.identity, transform);
 
+                puzzlePieces.Add(puzzlePieceInstance);
+
                 Vector2 tiling = new Vector2(1f / gridSize, 1f / gridSize);
                 Vector2 offset = new Vector2((float)x / gridSize, (float)y / gridSize);
 
@@ -37,5 +44,10 @@ public class PuzzleGenerator : MonoBehaviour
             }
         }
         
+    }
+
+    public PuzzlePiece[] GetPuzzlePieces()
+    {
+        return puzzlePieces.ToArray();
     }
 }

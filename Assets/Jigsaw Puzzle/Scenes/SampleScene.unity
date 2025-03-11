@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77d7952e59f46b4d9f7e83977039301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzleController: {fileID: 441480795}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,8 +256,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -461,6 +462,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 441480794}
+  - component: {fileID: 441480795}
   m_Layer: 0
   m_Name: Puzzle Controller
   m_TagString: Untagged
@@ -483,6 +485,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 646430922}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &441480795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441480793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b716756d1d0934abcf9a70c6abb482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &646430921
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,9 +652,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99db5b3c1b97e0c4fa054d29dcfff38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzleController: {fileID: 441480795}
   puzzlePiecePrefab: {fileID: 3868504265759783494, guid: 4c82ecc114cfef841b847dc10a299205, type: 3}
   gridSize: 10
-  gridScale: 0.3
+  gridScale: 1
 --- !u!4 &1139422598
 Transform:
   m_ObjectHideFlags: 0

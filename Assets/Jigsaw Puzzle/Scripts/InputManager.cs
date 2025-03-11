@@ -3,6 +3,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     [Header("Elements")]
+    [SerializeField] private PuzzleController puzzleController;
 
     private void Update()
     {
@@ -19,6 +20,8 @@ public class InputManager : MonoBehaviour
     {
         Vector2 touchPosition = Input.touches[0].position;
         Vector3 worldTouchPosition = Camera.main.ScreenToWorldPoint(touchPosition);
+        worldTouchPosition.z = 0;
+
         TouchPhase touchPhase = Input.touches[0].phase;
 
         switch (touchPhase)
@@ -26,6 +29,11 @@ public class InputManager : MonoBehaviour
             case TouchPhase.Began:
                 // If detect a piece, start moving
                 // If not move camera
+                if (puzzleController.SingleTouchBeganCallback(worldTouchPosition))
+                {
+                    // A piece has been detected
+                    return;
+                }
                 break;
             default:
                 break;
