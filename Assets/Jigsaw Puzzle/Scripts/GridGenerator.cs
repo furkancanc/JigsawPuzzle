@@ -7,6 +7,8 @@ public class GridGenerator : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private int gridSize;
+    [SerializeField] private float gridScale;
+
     private void Start()
     {
         GenerateGrid();
@@ -14,17 +16,18 @@ public class GridGenerator : MonoBehaviour
 
     private void GenerateGrid()
     {
-        Vector3 startPosition = Vector2.left * (float)gridSize / 2 + Vector2.down * (float)gridSize / 2;
+        Vector3 startPosition = Vector2.left * (gridScale * gridSize / 2) + Vector2.down * (gridScale * gridSize  / 2);
 
-        startPosition.x += .5f;
-        startPosition.y += .5f;
+        startPosition.x += gridScale / 2;
+        startPosition.y += gridScale / 2;
 
         for (int x = 0; x < gridSize; ++x)
         {
             for (int y = 0; y < gridSize; ++y)
             {
-                Vector3 spawnPosition = startPosition + Vector3.right * x + Vector3.up * y;
-                Instantiate(spherePrefab, spawnPosition, Quaternion.identity, transform);
+                Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
+                GameObject sphereInstance = Instantiate(spherePrefab, spawnPosition, Quaternion.identity, transform);
+                sphereInstance.transform.localScale = Vector3.one * gridScale;
             }
         }
         
