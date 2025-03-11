@@ -28,6 +28,12 @@ public class GridGenerator : MonoBehaviour
                 Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
                 GameObject sphereInstance = Instantiate(spherePrefab, spawnPosition, Quaternion.identity, transform);
                 sphereInstance.transform.localScale = Vector3.one * gridScale;
+
+                Vector2 tiling = new Vector2(1f / gridSize, 1f / gridSize);
+                Vector2 offset = new Vector2((float)x / gridSize, (float)y / gridSize);
+
+                sphereInstance.GetComponent<Renderer>().material.mainTextureScale = tiling;
+                sphereInstance.GetComponent<Renderer>().material.mainTextureOffset = offset;
             }
         }
         
