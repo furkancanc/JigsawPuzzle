@@ -2,8 +2,16 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    enum State { None, PuzzlePiece, Camera }
+    private State state;
+
     [Header("Elements")]
     [SerializeField] private PuzzleController puzzleController;
+
+    private void Start()
+    {
+        state = State.None;
+    }
 
     private void Update()
     {
@@ -31,8 +39,23 @@ public class InputManager : MonoBehaviour
                 // If not move camera
                 if (puzzleController.SingleTouchBeganCallback(worldTouchPosition))
                 {
+                    state = State.PuzzlePiece;
                     // A piece has been detected
                     return;
+                }
+                break;
+
+            case TouchPhase.Moved:
+                if (state == State.PuzzlePiece)
+                {
+                    puzzleController.SingleTouchDrag(worldTouchPosition);
+                }
+                break;
+
+            case TouchPhase.Stationary:
+                if (state == State.PuzzlePiece)
+                {
+                    puzzleController.SingleTouchDrag(worldTouchPosition);
                 }
                 break;
             default:

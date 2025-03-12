@@ -8,6 +8,10 @@ public class PuzzleController : MonoBehaviour
     [Header("Settings")]
     private float detectionRadius;
 
+    [Header("Piece Movement")]
+    private Vector3 clickedPosition;
+    private PuzzlePiece currentPiece;
+
     public void Configure(PuzzleGenerator puzzleGenerator, float gridScale)
     {
         this.puzzleGenerator = puzzleGenerator;
@@ -17,16 +21,29 @@ public class PuzzleController : MonoBehaviour
     public bool SingleTouchBeganCallback(Vector3 worldPosition)
     {
         PuzzlePiece[] puzzlePieces = puzzleGenerator.GetPuzzlePieces();
-        PuzzlePiece closestPiece = GetClosesPiece(puzzlePieces, worldPosition);
+        currentPiece = GetClosestPiece(puzzlePieces, worldPosition);
 
-        if (closestPiece == null)
+        if (currentPiece == null)
             return false;
 
-        Destroy(closestPiece.gameObject);
+        clickedPosition = worldPosition;
+        currentPiece.StartMoving();
+
+
         return true;
     }
 
-    private PuzzlePiece GetClosesPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
+    public void SingleTouchDrag(Vector3 worldPosition)
+    {
+        Vector3 moveDelta = worldPosition - clickedPosition;
+
+        if (currentPiece != null)
+        {
+            currentPiece.Move(moveDelta);
+        }
+    }
+
+    private PuzzlePiece GetClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
     {
         float minDistance = 50000;
         int closestIndex = -1;
