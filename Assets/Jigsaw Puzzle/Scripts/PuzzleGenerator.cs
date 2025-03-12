@@ -13,8 +13,6 @@ public class PuzzleGenerator : MonoBehaviour
     [SerializeField] private float gridScale;
     private List<PuzzlePiece> puzzlePieces = new List<PuzzlePiece>();
 
-    [Header("Z Sorting")]
-    [SerializeField] private float pieceZOffset;
 
     private void Start()
     {
@@ -36,7 +34,7 @@ public class PuzzleGenerator : MonoBehaviour
             for (int y = 0; y < gridSize; ++y)
             {
                 Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
-                spawnPosition.z -= pieceZOffset * GridIndexFromPosition(x, y);
+                spawnPosition.z -= Constants.pieceZOffset * GridIndexFromPosition(x, y);
                 PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, spawnPosition, Quaternion.identity, transform);
 
 

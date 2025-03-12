@@ -26,6 +26,8 @@ public class PuzzleController : MonoBehaviour
         if (currentPiece == null)
             return false;
 
+        ManagePiecesOrder(puzzlePieces);
+
         clickedPosition = worldPosition;
         currentPiece.StartMoving();
 
@@ -41,6 +43,11 @@ public class PuzzleController : MonoBehaviour
         {
             currentPiece.Move(moveDelta);
         }
+    }
+
+    private void ManagePiecesOrder(PuzzlePiece[] puzzlePieces)
+    {
+        float highestZ = puzzlePieces.Length * Constants.pieceZOffset;
     }
 
     private PuzzlePiece GetClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
