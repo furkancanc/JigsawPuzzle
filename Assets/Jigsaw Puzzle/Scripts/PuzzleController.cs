@@ -48,6 +48,24 @@ public class PuzzleController : MonoBehaviour
     private void ManagePiecesOrder(PuzzlePiece[] puzzlePieces)
     {
         float highestZ = puzzlePieces.Length * Constants.pieceZOffset;
+        float currentPieceZ = currentPiece.transform.position.z;
+
+        Vector3 currentPieceTargetPosition = currentPiece.transform.position;
+        currentPieceTargetPosition.z = -highestZ;
+        currentPiece.transform.position = currentPieceTargetPosition;
+
+        for (int i = 0; i < puzzlePieces.Length; ++i)
+        {
+            if (puzzlePieces[i] == currentPiece)
+                continue;
+
+            if (puzzlePieces[i].transform.position.z < currentPieceZ)
+            {
+                puzzlePieces[i].transform.position += Vector3.forward * Constants.pieceZOffset;
+            }
+        }
+
+        currentPiece.transform.position = new Vector3(currentPiece.transform.position.x, currentPiece.transform.position.y, -highestZ);
     }
 
     private PuzzlePiece GetClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
@@ -57,7 +75,7 @@ public class PuzzleController : MonoBehaviour
 
         for (int i = 0; i < puzzlePieces.Length; ++i)
         {
-            float distance = Vector3.Distance(puzzlePieces[i].transform.position, worldPosition);
+            float distance = Vector3.Distance((Vector2)puzzlePieces[i].transform.position, worldPosition);
             if (distance > detectionRadius)
                 continue;
 
