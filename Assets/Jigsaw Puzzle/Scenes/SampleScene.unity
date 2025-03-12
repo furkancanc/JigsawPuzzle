@@ -654,8 +654,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puzzleController: {fileID: 441480795}
   puzzlePiecePrefab: {fileID: 3868504265759783494, guid: 4c82ecc114cfef841b847dc10a299205, type: 3}
-  gridSize: 10
+  gridSize: 5
   gridScale: 1
+  pieceZOffset: 0.001
 --- !u!4 &1139422598
 Transform:
   m_ObjectHideFlags: 0

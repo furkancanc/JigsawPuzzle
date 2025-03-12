@@ -13,6 +13,9 @@ public class PuzzleGenerator : MonoBehaviour
     [SerializeField] private float gridScale;
     private List<PuzzlePiece> puzzlePieces = new List<PuzzlePiece>();
 
+    [Header("Z Sorting")]
+    [SerializeField] private float pieceZOffset;
+
     private void Start()
     {
         puzzleController.Configure(this, gridScale);
@@ -33,7 +36,9 @@ public class PuzzleGenerator : MonoBehaviour
             for (int y = 0; y < gridSize; ++y)
             {
                 Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
+                spawnPosition.z -= pieceZOffset * GridIndexFromPosition(x, y);
                 PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, spawnPosition, Quaternion.identity, transform);
+
 
                 puzzlePieces.Add(puzzlePieceInstance);
 
@@ -45,6 +50,8 @@ public class PuzzleGenerator : MonoBehaviour
         }
         
     }
+
+    private int GridIndexFromPosition(int x, int y) => y + gridSize * x;
 
     public PuzzlePiece[] GetPuzzlePieces()
     {
