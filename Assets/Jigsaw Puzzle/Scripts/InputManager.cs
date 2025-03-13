@@ -45,7 +45,7 @@ public class InputManager : MonoBehaviour
                 }
                 else
                 {
-                    cameraController.SingleTouchBeganCallback(worldTouchPosition);
+                    cameraController.SingleTouchBeganCallback(touchPosition);
                     state = State.Camera;
                 }
                 break;
@@ -57,7 +57,7 @@ public class InputManager : MonoBehaviour
                 }
                 else if (state == State.Camera)
                 {
-                    cameraController.SingleTouchDrag(worldTouchPosition);
+                    cameraController.SingleTouchDrag(touchPosition);
                 }
                 break;
 
@@ -68,7 +68,7 @@ public class InputManager : MonoBehaviour
                 }
                 else if (state == State.Camera)
                 {
-                    cameraController.SingleTouchDrag(worldTouchPosition);
+                    cameraController.SingleTouchDrag(touchPosition);
                 }
                 break;
             case TouchPhase.Ended:
