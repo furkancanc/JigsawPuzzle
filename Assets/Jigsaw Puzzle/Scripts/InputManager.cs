@@ -55,12 +55,20 @@ public class InputManager : MonoBehaviour
                 {
                     puzzleController.SingleTouchDrag(worldTouchPosition);
                 }
+                else if (state == State.Camera)
+                {
+                    cameraController.SingleTouchDrag(worldTouchPosition);
+                }
                 break;
 
             case TouchPhase.Stationary:
                 if (state == State.PuzzlePiece)
                 {
                     puzzleController.SingleTouchDrag(worldTouchPosition);
+                }
+                else if (state == State.Camera)
+                {
+                    cameraController.SingleTouchDrag(worldTouchPosition);
                 }
                 break;
             case TouchPhase.Ended:
