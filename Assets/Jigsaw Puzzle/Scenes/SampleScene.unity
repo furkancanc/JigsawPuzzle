@@ -177,8 +177,8 @@ Transform:
   m_GameObject: {fileID: 205819658}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.075, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 2, z: 1}
+  m_LocalPosition: {x: -2.075, y: 0, z: 0}
+  m_LocalScale: {x: 0.15, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 439426396}
@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleController: {fileID: 441480795}
+  cameraController: {fileID: 330585548}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +294,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -343,7 +345,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -418,6 +420,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af81d3e5f017b548a1632403a1f4952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,8 +692,8 @@ Transform:
   m_GameObject: {fileID: 665993423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.075, z: 0}
-  m_LocalScale: {x: 0.15, y: 2.3, z: 1}
+  m_LocalPosition: {x: 0, y: 2.075, z: 0}
+  m_LocalScale: {x: 0.15, y: 4.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 439426396}
@@ -826,8 +840,8 @@ Transform:
   m_GameObject: {fileID: 930580606}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.075, z: 0}
-  m_LocalScale: {x: 0.15, y: 2.3, z: 1}
+  m_LocalPosition: {x: 0, y: -2.075, z: 0}
+  m_LocalScale: {x: 0.15, y: 4.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 439426396}
@@ -948,7 +962,6 @@ MonoBehaviour:
   puzzleController: {fileID: 441480795}
   puzzlePiecePrefab: {fileID: 3868504265759783494, guid: 4c82ecc114cfef841b847dc10a299205, type: 3}
   gridSize: 2
-  gridScale: 1
 --- !u!4 &1139422598
 Transform:
   m_ObjectHideFlags: 0
@@ -1024,8 +1037,8 @@ Transform:
   m_GameObject: {fileID: 1737423905}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.075, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 2, z: 1}
+  m_LocalPosition: {x: 2.075, y: 0, z: 0}
+  m_LocalScale: {x: 0.15, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 439426396}

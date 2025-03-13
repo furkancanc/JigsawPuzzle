@@ -93,7 +93,7 @@ public class PuzzleController : MonoBehaviour
             potentialPieces.Add(puzzlePieces[i]);
         }
         // 2. sort these pieces by z position
-        if (potentialPieces.Count < 0) return null;
+        if (potentialPieces.Count <= 0) return null;
 
         potentialPieces.Sort();
         // 3. Return the first element of the list
