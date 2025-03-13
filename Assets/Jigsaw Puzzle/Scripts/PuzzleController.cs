@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleController : MonoBehaviour
@@ -21,7 +23,7 @@ public class PuzzleController : MonoBehaviour
     public bool SingleTouchBeganCallback(Vector3 worldPosition)
     {
         PuzzlePiece[] puzzlePieces = puzzleGenerator.GetPuzzlePieces();
-        currentPiece = GetClosestPiece(puzzlePieces, worldPosition);
+        currentPiece = GetTopClosestPiece(puzzlePieces, worldPosition);
 
         if (currentPiece == null)
             return false;
@@ -66,6 +68,26 @@ public class PuzzleController : MonoBehaviour
         }
 
         currentPiece.transform.position = new Vector3(currentPiece.transform.position.x, currentPiece.transform.position.y, -highestZ);
+    }
+
+    private PuzzlePiece GetTopClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
+    {
+        // 1. Create a list of potential pieces
+        List<PuzzlePiece> potentialPieces = new List<PuzzlePiece>();
+
+        for (int i = 0; i < puzzlePieces.Length; ++i)
+        {
+            float distance = Vector3.Distance((Vector2)puzzlePieces[i].transform.position, worldPosition);
+            if (distance > detectionRadius) continue;
+
+            potentialPieces.Add(puzzlePieces[i]);
+        }
+        // 2. sort these pieces by z position
+        if (potentialPieces.Count < 0) return null;
+
+        potentialPieces.Sort();
+        // 3. Return the first element of the list
+        return potentialPieces[0];
     }
 
     private PuzzlePiece GetClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
