@@ -33,9 +33,13 @@ public class PuzzleGenerator : MonoBehaviour
         {
             for (int y = 0; y < gridSize; ++y)
             {
-                Vector3 spawnPosition = startPosition + new Vector3(x, y) * gridScale;
-                spawnPosition.z -= Constants.pieceZOffset * GridIndexFromPosition(x, y);
-                PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, spawnPosition, Quaternion.identity, transform);
+                Vector3 correctPosition = startPosition + new Vector3(x, y) * gridScale;
+                correctPosition.z -= Constants.pieceZOffset * GridIndexFromPosition(x, y);
+
+                Vector3 randomPosition = Random.insideUnitSphere * 2;
+                randomPosition.z = correctPosition.z;
+
+                PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, randomPosition, Quaternion.identity, transform);
 
 
                 puzzlePieces.Add(puzzlePieceInstance);
@@ -43,7 +47,7 @@ public class PuzzleGenerator : MonoBehaviour
                 Vector2 tiling = new Vector2(1f / gridSize, 1f / gridSize);
                 Vector2 offset = new Vector2((float)x / gridSize, (float)y / gridSize);
 
-                puzzlePieceInstance.Configure(gridScale, tiling, offset);
+                puzzlePieceInstance.Configure(gridScale, tiling, offset, correctPosition);
             }
         }
         

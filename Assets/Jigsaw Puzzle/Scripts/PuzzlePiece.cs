@@ -9,12 +9,18 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     [Header("Movement")]
     private Vector3 startMovePosition;
-    public void Configure(float scale, Vector2 tiling, Vector2 offset)
+
+    [Header("Validation")]
+    private Vector3 correctPosition;
+
+    public void Configure(float scale, Vector2 tiling, Vector2 offset, Vector3 correctPosition)
     {
         transform.localScale = Vector3.one * scale;
 
         renderer.material.mainTextureScale = tiling;
         renderer.material.mainTextureOffset = offset;
+
+        this.correctPosition = correctPosition;
     }
 
     public void StartMoving()
@@ -32,7 +38,30 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     public void StopMoving()
     {
+        CheckForValidation();
+    }
 
+    private void CheckForValidation()
+    {
+        if (IsCloseToCorrectPosition())
+        {
+            Validate();
+        }
+    }
+
+    private bool IsCloseToCorrectPosition()
+    {
+        return Vector3.Distance((Vector2)transform.position, (Vector2)correctPosition) < GetMinValidDistance();
+    }
+
+    private float GetMinValidDistance()
+    {
+        return Mathf.Max(.05f, transform.localScale.x / 5);
+    }
+
+    private void Validate()
+    {
+        Debug.Log("Piece placed correctly " + name);
     }
 
     public int CompareTo(PuzzlePiece otherPiece)

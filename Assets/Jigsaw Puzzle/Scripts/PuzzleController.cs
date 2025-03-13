@@ -47,6 +47,14 @@ public class PuzzleController : MonoBehaviour
         }
     }
 
+    public void SingleTouchEnded()
+    {
+        if (currentPiece == null) return;
+
+        currentPiece.StopMoving();
+        currentPiece = null;
+    }
+
     private void ManagePiecesOrder(PuzzlePiece[] puzzlePieces)
     {
         float highestZ = puzzlePieces.Length * Constants.pieceZOffset;

@@ -58,6 +58,12 @@ public class InputManager : MonoBehaviour
                     puzzleController.SingleTouchDrag(worldTouchPosition);
                 }
                 break;
+            case TouchPhase.Ended:
+                if (state == State.PuzzlePiece)
+                {
+                    puzzleController.SingleTouchEnded();
+                }
+                break;
             default:
                 break;
         }
