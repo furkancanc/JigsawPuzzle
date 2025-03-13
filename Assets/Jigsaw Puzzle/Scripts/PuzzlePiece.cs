@@ -12,6 +12,7 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     [Header("Validation")]
     private Vector3 correctPosition;
+    public bool IsValid { get; private set; }
 
     public void Configure(float scale, Vector2 tiling, Vector2 offset, Vector3 correctPosition)
     {
@@ -61,6 +62,10 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     private void Validate()
     {
+        correctPosition.z = 0;
+        transform.position = correctPosition;
+
+        IsValid = true;
         Debug.Log("Piece placed correctly " + name);
     }
 

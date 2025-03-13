@@ -85,6 +85,8 @@ public class PuzzleController : MonoBehaviour
 
         for (int i = 0; i < puzzlePieces.Length; ++i)
         {
+            if (puzzlePieces[i].IsValid) continue;
+
             float distance = Vector3.Distance((Vector2)puzzlePieces[i].transform.position, worldPosition);
             if (distance > detectionRadius) continue;
 
@@ -96,29 +98,5 @@ public class PuzzleController : MonoBehaviour
         potentialPieces.Sort();
         // 3. Return the first element of the list
         return potentialPieces[0];
-    }
-
-    private PuzzlePiece GetClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)
-    {
-        float minDistance = 50000;
-        int closestIndex = -1;
-
-        for (int i = 0; i < puzzlePieces.Length; ++i)
-        {
-            float distance = Vector3.Distance((Vector2)puzzlePieces[i].transform.position, worldPosition);
-            if (distance > detectionRadius)
-                continue;
-
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestIndex = i;
-            }
-        }
-
-        if (closestIndex < 0)
-            return null;
-
-        return puzzlePieces[closestIndex];
     }
 }
