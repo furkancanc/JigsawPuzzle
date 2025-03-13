@@ -17,7 +17,7 @@ public class PuzzleController : MonoBehaviour
     public void Configure(PuzzleGenerator puzzleGenerator, float gridScale)
     {
         this.puzzleGenerator = puzzleGenerator;
-        detectionRadius = gridScale * 1.5f;
+        detectionRadius = gridScale / 2 * 1.5f;
     }
 
     public bool SingleTouchBeganCallback(Vector3 worldPosition)

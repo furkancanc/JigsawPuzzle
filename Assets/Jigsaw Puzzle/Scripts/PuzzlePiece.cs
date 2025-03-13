@@ -1,6 +1,8 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PuzzlePiece : MonoBehaviour
+public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 {
     [Header("Elements")]
     [SerializeField] private Renderer renderer;
@@ -31,5 +33,10 @@ public class PuzzlePiece : MonoBehaviour
     public void StopMoving()
     {
 
+    }
+
+    public int CompareTo(PuzzlePiece otherPiece)
+    {
+        return transform.position.z.CompareTo(otherPiece.transform.position.z);
     }
 }
