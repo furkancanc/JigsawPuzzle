@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
 
     [Header("Elements")]
     [SerializeField] private PuzzleController puzzleController;
+    [SerializeField] private CameraController cameraController;
 
     private void Start()
     {
@@ -39,9 +40,13 @@ public class InputManager : MonoBehaviour
                 // If not move camera
                 if (puzzleController.SingleTouchBeganCallback(worldTouchPosition))
                 {
-                    state = State.PuzzlePiece;
                     // A piece has been detected
-                    return;
+                    state = State.PuzzlePiece;
+                }
+                else
+                {
+                    cameraController.SingleTouchBeganCallback(worldTouchPosition);
+                    state = State.Camera;
                 }
                 break;
 

@@ -16,10 +16,9 @@ public class PuzzleGenerator : MonoBehaviour
 
     private void Start()
     {
-        puzzleController.Configure(this, gridScale);
 
         gridScale = Constants.puzzleWorldSize / gridSize;
-
+        puzzleController.Configure(this, gridScale);
         GenerateGrid();
     }
 
