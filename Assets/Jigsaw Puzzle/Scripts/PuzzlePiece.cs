@@ -1,6 +1,6 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 {
@@ -15,6 +15,7 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     [Header("Neighbors")]
     private PuzzlePiece[] neighbors;
+    public Transform Group { get; private set; }
 
     public bool IsValid { get; private set; }
 
@@ -35,7 +36,14 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     public void StartMoving()
     {
-        startMovePosition = transform.position;
+        if (Group == null)
+        {
+            startMovePosition = transform.position;
+        }
+        else
+        {
+            startMovePosition = Group.position;
+        }
 
     }
 
@@ -43,8 +51,14 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
     {
         Vector3 targetPosition = startMovePosition + moveDelta;
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 60 * .3f);
-        //transform.position = targetPosition;
+        if (Group == null)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 60 * .3f);
+        }
+        else
+        {
+            Group.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 60 * .3f);
+        }
     }
 
     public void StopMoving()
@@ -102,8 +116,31 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
             if (Vector3.Distance(correctWorldPosition, neighbors[i].transform.position) < GetMinValidDistance())
             {
-
+                SnapNeighbor(neighbors[i], correctWorldPosition);
             }
+        }
+    }
+
+    private void SnapNeighbor(PuzzlePiece neighbor, Vector3 correctWorldPosition)
+    {
+        if (Group != null && neighbor.Group != null && Group == neighbor.Group)
+        {
+            return;
+        }
+
+        if (Group == null && neighbor.Group == null)
+        {
+            neighbor.transform.position = correctWorldPosition;
+
+            GameObject pieceGroup = new GameObject("Piece Group " + Random.Range(100, 200));
+            pieceGroup.transform.position = transform.position;
+            pieceGroup.transform.SetParent(transform.parent);
+
+            transform.SetParent(pieceGroup.transform);
+            neighbor.transform.SetParent(pieceGroup.transform);
+
+            Group = pieceGroup.transform;
+            neighbor.Group = pieceGroup.transform;
         }
     }
 
