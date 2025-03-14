@@ -9,6 +9,10 @@ public class InputManager : MonoBehaviour
     [SerializeField] private PuzzleController puzzleController;
     [SerializeField] private CameraController cameraController;
 
+    [Header("Double Touch")]
+    private Vector2 touch0clickedPosition, touch1clickedPosition;
+    private Vector2 initialDelta;
+
     private void Start()
     {
         state = State.None;
@@ -23,6 +27,8 @@ public class InputManager : MonoBehaviour
     {
         if (Input.touchCount == 1)
             ManageSingleInput();
+        else if (Input.touchCount == 2)
+            ManageDoubleInput();
     }
     
     private void ManageSingleInput()
@@ -80,5 +86,47 @@ public class InputManager : MonoBehaviour
             default:
                 break;
         }
+    }
+    
+    private void ManageDoubleInput()
+    {
+        switch (state)
+        {
+            case State.None:
+                ManageCameraDoubleInput();
+                break;
+            case State.Camera:
+                ManageCameraDoubleInput();
+                break;
+            case State.PuzzlePiece:
+                break;
+
+        }
+    }
+
+    private void ManageCameraDoubleInput()
+    {
+        Touch[] touches = Input.touches;
+
+        if (touches[0].phase == TouchPhase.Began)
+        {
+            touch0clickedPosition = touches[0].position;
+        }
+        if (touches[1].phase == TouchPhase.Began)
+        {
+            touch0clickedPosition = touches[0].position;
+            touch1clickedPosition = touches[0].position;
+
+            initialDelta = touch1clickedPosition - touch0clickedPosition;
+
+            cameraController.DoubleTouchBeganCallback(touch0clickedPosition, touch1clickedPosition);
+
+            return;
+        }
+
+        Vector2 currentDelta = touches[1].position - touches[0].position;
+        float distanceDelta = (currentDelta.magnitude - initialDelta.magnitude) / Screen.width;
+
+        cameraController.DoubleTouchDrag(distanceDelta);
     }
 }
