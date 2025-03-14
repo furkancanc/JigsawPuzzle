@@ -43,6 +43,7 @@ public class PuzzleGenerator : MonoBehaviour
 
                 PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, randomPosition, Quaternion.identity, transform);
 
+                puzzlePieceInstance.name = "Puzzle Piece (" + x + "-" + y + ")"; 
 
                 puzzlePieces.Add(puzzlePieceInstance);
 

@@ -95,9 +95,10 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
             }
 
             Vector3 correctLocalPosition = Quaternion.Euler(0, 0, -90 * i) * Vector3.right * transform.localScale.x;
-            correctPosition.z = neighbors[i].transform.position.z;
+            
 
             Vector3 correctWorldPosition = transform.position + correctLocalPosition;
+            correctPosition.z = neighbors[i].transform.position.z;
 
             if (Vector3.Distance(correctWorldPosition, neighbors[i].transform.position) < GetMinValidDistance())
             {
