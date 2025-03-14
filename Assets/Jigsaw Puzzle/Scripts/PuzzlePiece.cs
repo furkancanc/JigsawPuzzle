@@ -82,7 +82,28 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     private void CheckForNeighbors()
     {
+        for (int i = 0; i < neighbors.Length; ++i)
+        {
+            if (neighbors[i] == null)
+            {
+                continue;
+            }
 
+            if (neighbors[i].IsValid)
+            {
+                continue;
+            }
+
+            Vector3 correctLocalPosition = Quaternion.Euler(0, 0, -90 * i) * Vector3.right * transform.localScale.x;
+            correctPosition.z = neighbors[i].transform.position.z;
+
+            Vector3 correctWorldPosition = transform.position + correctLocalPosition;
+
+            if (Vector3.Distance(correctWorldPosition, neighbors[i].transform.position) < GetMinValidDistance())
+            {
+
+            }
+        }
     }
 
     private void Validate()
