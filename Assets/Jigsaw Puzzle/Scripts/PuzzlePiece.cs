@@ -12,6 +12,10 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     [Header("Validation")]
     private Vector3 correctPosition;
+
+    [Header("Neighbors")]
+    private PuzzlePiece[] neighbors;
+
     public bool IsValid { get; private set; }
 
     public void Configure(float scale, Vector2 tiling, Vector2 offset, Vector3 correctPosition)
@@ -24,9 +28,15 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
         this.correctPosition = correctPosition;
     }
 
+    public void SetNeighbors(params PuzzlePiece[] puzzlePieces)
+    {
+        neighbors = puzzlePieces;
+    }
+
     public void StartMoving()
     {
         startMovePosition = transform.position;
+
     }
 
     public void Move(Vector3 moveDelta)
@@ -39,15 +49,25 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     public void StopMoving()
     {
-        CheckForValidation();
+        bool isValid = CheckForValidation();
+
+        if (isValid)
+        {
+            return;
+        }
+
+        CheckForNeighbors();
     }
 
-    private void CheckForValidation()
+    private bool CheckForValidation()
     {
         if (IsCloseToCorrectPosition())
         {
             Validate();
+            return true;
         }
+
+        return false;
     }
 
     private bool IsCloseToCorrectPosition()
@@ -58,6 +78,11 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
     private float GetMinValidDistance()
     {
         return Mathf.Max(.05f, transform.localScale.x / 5);
+    }
+
+    private void CheckForNeighbors()
+    {
+
     }
 
     private void Validate()
