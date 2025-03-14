@@ -128,5 +128,13 @@ public class InputManager : MonoBehaviour
         float distanceDelta = (currentDelta.magnitude - initialDelta.magnitude) / Screen.width;
 
         cameraController.DoubleTouchDrag(distanceDelta);
+
+        foreach(Touch touch in touches)
+        {
+            if (touch.phase == TouchPhase.Ended)
+            {
+                state = State.None;
+            }
+        }
     }
 }

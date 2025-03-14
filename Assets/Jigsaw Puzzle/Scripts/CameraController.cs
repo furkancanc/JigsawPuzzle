@@ -8,6 +8,9 @@ public class CameraController : MonoBehaviour
     private Vector2 touch0ClickedPosition;
 
     [Header("Zoom")]
+    [SerializeField] private float zoomSpeed;
+    [SerializeField] private float zoomMultiplier;
+    [SerializeField] private Vector2 minMaxOrthoSize;
     private Vector3 zoomInitialPosition;
     private Vector3 zoomCenter;
     private float clickedOrthoSize;
@@ -39,6 +42,27 @@ public class CameraController : MonoBehaviour
 
     public void DoubleTouchDrag(float distanceDelta)
     {
+        // Set ortho size
+        SetOrthoSize(distanceDelta);
 
+        // Move towards the center
+        MoveTowardsZoomCenter();
+    }
+
+    private void SetOrthoSize(float distanceDelta)
+    {
+        float targetOrthoSize = clickedOrthoSize - distanceDelta * zoomMultiplier;
+        targetOrthoSize = Mathf.Clamp(targetOrthoSize, minMaxOrthoSize.x, minMaxOrthoSize.y);
+
+        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, targetOrthoSize, Time.deltaTime * 60 * .3f);
+    }
+
+    private void MoveTowardsZoomCenter()
+    {
+        float percent = Mathf.InverseLerp(minMaxOrthoSize.x, minMaxOrthoSize.y, clickedOrthoSize - Camera.main.orthographicSize);
+        percent *= zoomSpeed;
+        Vector3 targetPosition = Vector3.Lerp(zoomInitialPosition, zoomCenter, percent);
+        transform.position = targetPosition;
+        cameraStartMovePosition = transform.position;
     }
 }
