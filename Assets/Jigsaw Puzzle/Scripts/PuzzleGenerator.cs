@@ -73,9 +73,9 @@ public class PuzzleGenerator : MonoBehaviour
         int y = gridPosition.y;
 
         PuzzlePiece rightPiece      = IsValidGridPosition(x + 1, y) ? transform.GetChild(GridIndexFromPosition(x + 1 ,y)).GetComponent<PuzzlePiece>() : null;
-        PuzzlePiece bottomPiece     = IsValidGridPosition(x, y - 1) ? transform.GetChild(GridIndexFromPosition(x + 1, y)).GetComponent<PuzzlePiece>() : null;
-        PuzzlePiece leftPiece       = IsValidGridPosition(x - 1, y) ? transform.GetChild(GridIndexFromPosition(x + 1, y)).GetComponent<PuzzlePiece>() : null;
-        PuzzlePiece topPiece        = IsValidGridPosition(x, y + 1) ? transform.GetChild(GridIndexFromPosition(x + 1, y)).GetComponent<PuzzlePiece>() : null;
+        PuzzlePiece bottomPiece     = IsValidGridPosition(x, y - 1) ? transform.GetChild(GridIndexFromPosition(x, y - 1)).GetComponent<PuzzlePiece>() : null;
+        PuzzlePiece leftPiece       = IsValidGridPosition(x - 1, y) ? transform.GetChild(GridIndexFromPosition(x - 1, y)).GetComponent<PuzzlePiece>() : null;
+        PuzzlePiece topPiece        = IsValidGridPosition(x, y + 1) ? transform.GetChild(GridIndexFromPosition(x, y + 1)).GetComponent<PuzzlePiece>() : null;
 
         piece.SetNeighbors(rightPiece, bottomPiece, leftPiece, topPiece);
     }
