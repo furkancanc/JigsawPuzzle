@@ -116,12 +116,12 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
             if (Vector3.Distance(correctWorldPosition, neighbors[i].transform.position) < GetMinValidDistance())
             {
-                SnapNeighbor(neighbors[i], correctWorldPosition);
+                SnapNeighbor(neighbors[i], correctWorldPosition, i);
             }
         }
     }
 
-    private void SnapNeighbor(PuzzlePiece neighbor, Vector3 correctWorldPosition)
+    private void SnapNeighbor(PuzzlePiece neighbor, Vector3 correctWorldPosition, int neighborIndex)
     {
         if (Group != null && neighbor.Group != null && Group == neighbor.Group)
         {
@@ -141,6 +141,24 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
             Group = pieceGroup.transform;
             neighbor.Group = pieceGroup.transform;
+        }
+
+        if (Group != null && neighbor.Group == null)
+        {
+            neighbor.transform.position = correctWorldPosition;
+            neighbor.transform.SetParent(Group);
+            neighbor.Group = Group;
+        }
+
+        if (Group == null && neighbor.Group != null)
+        {
+            Group = neighbor.Group;
+            transform.SetParent(Group);
+
+            Vector3 thisCorrectWorldPosition = neighbor.transform.position + 
+                Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * Vector3.right * transform.localScale.x;
+
+            transform.position = thisCorrectWorldPosition;
         }
     }
 
