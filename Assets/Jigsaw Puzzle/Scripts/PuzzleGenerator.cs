@@ -61,11 +61,11 @@ public class PuzzleGenerator : MonoBehaviour
     {
         for (int i = 0; i < puzzlePieces.Count; ++i)
         {
-            ConfigureNeighbors(puzzlePieces[i], i);
+            ConfigurePieceNeigbors(puzzlePieces[i], i);
         }
     }
 
-    private void ConfigureNeighbors(PuzzlePiece piece, int index)
+    private void ConfigurePieceNeigbors(PuzzlePiece piece, int index)
     {
         Vector2Int gridPosition = IndexToGridPosition(index);
 

@@ -184,12 +184,32 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
         }
     }
 
-    private void Validate()
+    private void Validate(bool isRecursive = true)
     {
         correctPosition.z = 0;
         transform.position = correctPosition;
 
         IsValid = true;
+
+        if (!isRecursive)
+        {
+            return;
+        }
+
+        if (Group == null)
+        {
+            return;
+        }
+
+        foreach (Transform piece in Group)
+        {
+            if (piece == transform)
+            {
+                continue;
+            }
+
+            piece.GetComponent<PuzzlePiece>().Validate(false);
+        }
         Debug.Log("Piece placed correctly " + name);
     }
 
