@@ -128,7 +128,7 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
             return;
         }
 
-        if (Group == null && neighbor.Group == null)
+        else if (Group == null && neighbor.Group == null)
         {
             neighbor.transform.position = correctWorldPosition;
 
@@ -143,14 +143,14 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
             neighbor.Group = pieceGroup.transform;
         }
 
-        if (Group != null && neighbor.Group == null)
+        else if (Group != null && neighbor.Group == null)
         {
             neighbor.transform.position = correctWorldPosition;
             neighbor.transform.SetParent(Group);
             neighbor.Group = Group;
         }
 
-        if (Group == null && neighbor.Group != null)
+        else if (Group == null && neighbor.Group != null)
         {
             Group = neighbor.Group;
             transform.SetParent(Group);
@@ -159,6 +159,28 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
                 Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * Vector3.right * transform.localScale.x;
 
             transform.position = thisCorrectWorldPosition;
+        }
+
+        else if (Group != null && neighbor.Group != null && Group != neighbor.Group)
+        {
+            Vector3 thisCorrectWorldPosition = neighbor.transform.position +
+                Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * Vector3.right * transform.localScale.x;
+
+            Vector3 moveVector = thisCorrectWorldPosition - transform.position;
+            Group.position += moveVector;
+
+            while (Group.childCount > 0)
+            {
+                Transform piece = Group.GetChild(0);
+                piece.SetParent(neighbor.Group);
+            }
+
+            DestroyImmediate(Group.gameObject);
+
+            foreach (Transform piece in neighbor.Group)
+            {
+                piece.GetComponent<PuzzlePiece>().Group = neighbor.Group;
+            }
         }
     }
 
