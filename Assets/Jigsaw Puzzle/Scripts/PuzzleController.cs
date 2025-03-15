@@ -14,6 +14,9 @@ public class PuzzleController : MonoBehaviour
     private Vector3 clickedPosition;
     private PuzzlePiece currentPiece;
 
+    [Header("Rotation")]
+    private Quaternion pieceStartRotation;
+
     public void Configure(PuzzleGenerator puzzleGenerator, float gridScale)
     {
         this.puzzleGenerator = puzzleGenerator;
@@ -98,5 +101,20 @@ public class PuzzleController : MonoBehaviour
         potentialPieces.Sort();
         // 3. Return the first element of the list
         return potentialPieces[0];
+    }
+
+    public void StartRotatingPiece()
+    {
+        if (currentPiece == null) return;
+
+        pieceStartRotation = currentPiece.transform.rotation;
+
+    }
+
+    public void RotatePiece(float xDelta)
+    {
+        if (currentPiece == null) return;
+
+       
     }
 }
