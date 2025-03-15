@@ -15,6 +15,7 @@ public class PuzzleController : MonoBehaviour
     private PuzzlePiece currentPiece;
 
     [Header("Rotation")]
+    [SerializeField] private float rotationSpeed;
     private Quaternion pieceStartRotation;
 
     public void Configure(PuzzleGenerator puzzleGenerator, float gridScale)
@@ -106,15 +107,26 @@ public class PuzzleController : MonoBehaviour
     public void StartRotatingPiece()
     {
         if (currentPiece == null) return;
-
-        pieceStartRotation = currentPiece.transform.rotation;
-
+        if (currentPiece.Group == null)
+        {
+            pieceStartRotation = currentPiece.transform.rotation;
+        }
     }
 
     public void RotatePiece(float xDelta)
     {
         if (currentPiece == null) return;
 
-       
+        float targetAdditionalZAngle = xDelta * rotationSpeed;
+        Quaternion targetRotation = pieceStartRotation * Quaternion.Euler(0, 0, targetAdditionalZAngle);
+
+        if (currentPiece.Group == null)
+        {
+            currentPiece.transform.rotation = targetRotation;
+        }
+        else
+        {
+            currentPiece.Group.rotation = targetRotation;
+        }
     }
 }
