@@ -19,12 +19,8 @@ public class PuzzlePieceGenerator : MonoBehaviour
         List<Vector2> v2Vertices = new List<Vector2>();
         v2Vertices.AddRange(new Vector2[] { topRight, Vector3.zero, bottomRight, bottomLeft, topLeft });
 
-        //vertices.AddRange(new[] { topRight, bottomRight, bottomLeft, topLeft });
-
-        
         MeshTriangulator triangulator = new MeshTriangulator(v2Vertices.ToArray());
         int[] triangles = triangulator.Triangulate();
-
 
         for (int i = 0; i < v2Vertices.Count; ++i)
         {
