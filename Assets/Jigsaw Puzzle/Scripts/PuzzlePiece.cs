@@ -75,7 +75,7 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
 
     private bool CheckForValidation()
     {
-        if (IsCloseToCorrectPosition())
+        if (IsCloseToCorrectPosition() && HasCloseToIdentityRotation())
         {
             Validate();
             return true;
@@ -87,6 +87,11 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
     private bool IsCloseToCorrectPosition()
     {
         return Vector3.Distance((Vector2)transform.position, (Vector2)correctPosition) < GetMinValidDistance();
+    }
+
+    private bool HasCloseToIdentityRotation()
+    {
+        return Vector3.Angle(Vector3.right, transform.right) < 10;
     }
 
     private float GetMinValidDistance()
@@ -108,8 +113,13 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
                 continue;
             }
 
+            if (Vector3.Angle(transform.right, neighbors[i].transform.right) > 10)
+            {
+                continue;
+            }
+
             Vector3 correctLocalPosition = Quaternion.Euler(0, 0, -90 * i) * Vector3.right * transform.localScale.x;
-            
+            correctLocalPosition = transform.rotation * correctLocalPosition;
 
             Vector3 correctWorldPosition = transform.position + correctLocalPosition;
             correctPosition.z = neighbors[i].transform.position.z;
@@ -135,9 +145,13 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
             GameObject pieceGroup = new GameObject("Piece Group " + Random.Range(100, 200));
             pieceGroup.transform.position = transform.position;
             pieceGroup.transform.SetParent(transform.parent);
+            pieceGroup.transform.rotation = transform.rotation;
 
             transform.SetParent(pieceGroup.transform);
             neighbor.transform.SetParent(pieceGroup.transform);
+
+            transform.localRotation = Quaternion.identity;
+            neighbor.transform.localRotation = Quaternion.identity;
 
             Group = pieceGroup.transform;
             neighbor.Group = pieceGroup.transform;
@@ -146,6 +160,8 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
         else if (Group != null && neighbor.Group == null)
         {
             neighbor.transform.position = correctWorldPosition;
+            neighbor.transform.rotation = transform.rotation;
+
             neighbor.transform.SetParent(Group);
             neighbor.Group = Group;
         }
@@ -156,18 +172,24 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
             transform.SetParent(Group);
 
             Vector3 thisCorrectWorldPosition = neighbor.transform.position + 
-                Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * Vector3.right * transform.localScale.x;
+                Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * neighbor.transform.right * transform.localScale.x;
 
             transform.position = thisCorrectWorldPosition;
+            transform.rotation = neighbor.transform.rotation;
         }
 
         else if (Group != null && neighbor.Group != null && Group != neighbor.Group)
         {
             Vector3 thisCorrectWorldPosition = neighbor.transform.position +
-                Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * Vector3.right * transform.localScale.x;
+                Quaternion.Euler(0, 0, -90 * (neighborIndex + 2)) * neighbor.transform.right * transform.localScale.x;
 
             Vector3 moveVector = thisCorrectWorldPosition - transform.position;
+
             Group.position += moveVector;
+            Vector3 rotationCenter = transform.position;
+            float angle = Vector3.SignedAngle(transform.right, neighbor.transform.right, Vector3.forward);
+
+            Group.RotateAround(rotationCenter, Vector3.forward, angle);
 
             while (Group.childCount > 0)
             {
@@ -188,6 +210,7 @@ public class PuzzlePiece : MonoBehaviour, IComparable<PuzzlePiece>
     {
         correctPosition.z = 0;
         transform.position = correctPosition;
+        transform.rotation = Quaternion.identity;
 
         IsValid = true;
 

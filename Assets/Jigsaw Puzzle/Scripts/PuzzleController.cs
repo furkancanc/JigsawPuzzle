@@ -79,7 +79,15 @@ public class PuzzleController : MonoBehaviour
             }
         }
 
-        currentPiece.transform.position = new Vector3(currentPiece.transform.position.x, currentPiece.transform.position.y, -highestZ);
+        if (currentPiece.Group == null)
+        {
+            return;
+        }
+
+        foreach (Transform piece in currentPiece.Group)
+        {
+            piece.position = new Vector3(piece.position.x, piece.position.y, -highestZ);
+        }
     }
 
     private PuzzlePiece GetTopClosestPiece(PuzzlePiece[] puzzlePieces, Vector3 worldPosition)

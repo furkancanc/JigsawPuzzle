@@ -38,10 +38,12 @@ public class PuzzleGenerator : MonoBehaviour
                 Vector3 correctPosition = startPosition + new Vector3(x, y) * gridScale;
                 correctPosition.z -= Constants.pieceZOffset * GridIndexFromPosition(x, y);
 
-                Vector3 randomPosition = Random.insideUnitSphere * 2;
+                Vector3 randomPosition = Random.onUnitSphere * 2;
                 randomPosition.z = correctPosition.z;
 
-                PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, randomPosition, Quaternion.identity, transform);
+                Quaternion pieceRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+
+                PuzzlePiece puzzlePieceInstance = Instantiate(puzzlePiecePrefab, randomPosition, pieceRotation, transform);
 
                 puzzlePieceInstance.name = "Puzzle Piece (" + x + "-" + y + ")"; 
 
