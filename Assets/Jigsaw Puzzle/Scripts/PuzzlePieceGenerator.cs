@@ -16,16 +16,24 @@ public class PuzzlePieceGenerator : MonoBehaviour
         Vector3 topLeft = (Vector3.left + Vector3.up) * .5f;
         Vector3 bottomLeft = (Vector3.left + Vector3.down) * .5f;
 
-        vertices.AddRange(new[] { topRight, bottomRight, bottomLeft, topLeft });
+        List<Vector2> v2Vertices = new List<Vector2>();
+        v2Vertices.AddRange(new Vector2[] { topRight, Vector3.zero, bottomRight, bottomLeft, topLeft });
 
-        List<int> triangles = new List<int>();
+        //vertices.AddRange(new[] { topRight, bottomRight, bottomLeft, topLeft });
 
-        triangles.AddRange(new int[] { 0, 1, 2 });
-        triangles.AddRange(new int[] { 0, 2, 3 });
+        
+        MeshTriangulator triangulator = new MeshTriangulator(v2Vertices.ToArray());
+        int[] triangles = triangulator.Triangulate();
+
+
+        for (int i = 0; i < v2Vertices.Count; ++i)
+        {
+            vertices.Add(v2Vertices[i]);
+        }
 
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
+        mesh.triangles = triangles;
 
         mesh.RecalculateBounds();
         renderer.GetComponent<MeshFilter>().mesh = mesh;
